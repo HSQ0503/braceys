@@ -12,7 +12,7 @@ const FeaturesExplanation = ({
     "sections/features-explanation.md",
   ).frontmatter;
   return (
-    <section className="section">
+    <section id="features" className="section">
       <div className="container">
         <div className="row">
           {!hideHeadingBar && (

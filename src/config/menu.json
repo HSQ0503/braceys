@@ -2,11 +2,7 @@
   "main": [
     {
       "name": "Features",
-      "url": "/features/"
-    },
-    {
-      "name": "Pricing",
-      "url": "/pricing/"
+      "url": "#features"
     },
     {
       "name": "Early Access",
@@ -16,7 +12,7 @@
   "footer_menu": [
     {
       "name": "Features",
-      "url": "/features/"
+      "url": "#features"
     },
     {
       "name": "Pricing",
