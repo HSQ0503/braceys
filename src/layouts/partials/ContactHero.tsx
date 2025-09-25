@@ -1,11 +1,9 @@
-import config from "@/config/config.json";
 import ImageFallback from "@/helpers/ImageFallback";
 import { getListPage } from "@/lib/contentParser";
 import { markdownify } from "@/lib/utils/textConverter";
 
 const ContactHero = () => {
   const { hero } = getListPage("contact/_index.md").frontmatter;
-  const { contact_form_action } = config.params;
 
   return (
     <section className="section">

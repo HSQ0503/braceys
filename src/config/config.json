@@ -39,5 +39,11 @@
     "meta_author": "Braceys",
     "meta_image": "/images/og-image.png",
     "meta_description": "Your Personal Invisalign® Companion"
+  },
+
+  "settings": {
+    "blog_folder": "blog",
+    "pagination": 6,
+    "summary_length": 200
   }
 }
