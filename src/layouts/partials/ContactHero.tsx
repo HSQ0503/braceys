@@ -30,44 +30,6 @@ const ContactHero = () => {
                 dangerouslySetInnerHTML={markdownify(hero.description)}
               />
             )}
-            {hero.list && (
-              <div className="mt-10 flex flex-col gap-10 sm:flex-row xl:mt-20">
-                {hero.list.map(
-                  (
-                    point: { icon: string; title: string; description: string },
-                    i: number,
-                  ) => (
-                    <div key={i}>
-                      {point.icon && (
-                        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-tertiary">
-                          <ImageFallback
-                            className="h-6 w-6 object-cover"
-                            src={point.icon}
-                            alt={`icon related to ${point.title}`}
-                            width={24}
-                            height={24}
-                          />
-                        </div>
-                      )}
-                      {point.title && (
-                        <h3
-                          className="h6 mb-2 mt-5"
-                          dangerouslySetInnerHTML={markdownify(point.title)}
-                        />
-                      )}
-                      {point.description && (
-                        <p
-                          className="text-lg/[inherit]"
-                          dangerouslySetInnerHTML={markdownify(
-                            point.description,
-                          )}
-                        />
-                      )}
-                    </div>
-                  ),
-                )}
-              </div>
-            )}
           </div>
           <div
             className="relative pt-24 lg:col-5 lg:pt-16"
@@ -85,8 +47,10 @@ const ContactHero = () => {
             <div className="rounded-2xl bg-light p-5 md:p-10">
               <form
                 className="row g-4"
-                action={contact_form_action}
+                name="waitlist"
                 method="POST"
+                data-netlify="true"
+                action="/thank-you"
               >
                 <div className="col-12">
                   <label htmlFor="name" className="form-label">
@@ -108,54 +72,15 @@ const ContactHero = () => {
                   <input
                     id="email"
                     name="email"
-                    className="form-input"
+                    className="form-input focus:border-blue-400 focus:ring-2 focus:ring-blue-200"
                     placeholder="youremail@email.com"
                     required
                     type="email"
                   />
                 </div>
                 <div className="col-12">
-                  <label htmlFor="comapny-name" className="form-label">
-                    Company Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    id="comapny-name"
-                    name="comapny-name"
-                    className="form-input"
-                    placeholder="Your Company Name"
-                    required
-                    type="text"
-                  />
-                </div>
-                <div className="col-12">
-                  <label htmlFor="subject" className="form-label">
-                    Subject <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    id="subject"
-                    name="subject"
-                    className="form-input"
-                    placeholder="Your Company Name"
-                    required
-                    type="text"
-                  />
-                </div>
-                <div className="col-12">
-                  <label htmlFor="message" className="form-label">
-                    Write Message <span className="text-red-500">*</span>
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    className="form-input"
-                    placeholder="Write Your Message Here"
-                    required
-                    rows={3}
-                  ></textarea>
-                </div>
-                <div className="col-12">
-                  <button type="submit" className="btn btn-regular">
-                    Send Message
+                  <button type="submit" className="btn btn-regular bg-blue-500 hover:bg-blue-600 border-blue-500 hover:border-blue-600">
+                    Join Waitlist
                   </button>
                 </div>
               </form>
