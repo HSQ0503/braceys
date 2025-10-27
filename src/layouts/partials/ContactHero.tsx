@@ -29,7 +29,7 @@ const ContactHero = () => {
               />
             )}
           </div>
-          <ContactHeroForm hero={hero} />
+          <ContactHeroForm />
         </div>
       </div>
     </section>

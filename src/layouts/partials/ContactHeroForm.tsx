@@ -4,15 +4,7 @@ import ImageFallback from "@/helpers/ImageFallback";
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
-interface ContactHeroFormProps {
-  hero: {
-    subtitle?: string;
-    title?: string;
-    description?: string;
-  };
-}
-
-const ContactHeroForm = ({ hero }: ContactHeroFormProps) => {
+const ContactHeroForm = () => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");

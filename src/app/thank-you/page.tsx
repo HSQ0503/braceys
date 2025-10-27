@@ -30,13 +30,13 @@ const ThankYou = () => {
                   </svg>
                 </div>
                 <h1 className="mb-4 text-h2 lg:text-[3.5rem]">
-                  You're on the list! 🎉
+                  You&apos;re on the list! 🎉
                 </h1>
                 <p className="mb-6 text-xl text-text lg:text-2xl">
                   Thank you for joining the Braceys waitlist.
                 </p>
                 <p className="mb-8 text-lg text-text-light">
-                  We've sent a confirmation email to your inbox. Check your email for more details about what's coming next!
+                  We&apos;ve sent a confirmation email to your inbox. Check your email for more details about what&apos;s coming next!
                 </p>
               </div>
 
@@ -51,14 +51,14 @@ const ThankYou = () => {
                     <div className="mb-3 text-4xl">📧</div>
                     <h3 className="mb-2 text-lg font-medium">Check Your Email</h3>
                     <p className="text-sm text-text-light">
-                      We've sent you a welcome email with more information
+                      We&apos;ve sent you a welcome email with more information
                     </p>
                   </div>
                   <div>
                     <div className="mb-3 text-4xl">🚀</div>
                     <h3 className="mb-2 text-lg font-medium">Early Access</h3>
                     <p className="text-sm text-text-light">
-                      You'll be the first to know when we launch
+                      You&apos;ll be the first to know when we launch
                     </p>
                   </div>
                   <div>
