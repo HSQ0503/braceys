@@ -19,7 +19,6 @@
 
   "subscription": {
     "enable": true,
-    "action": "#",
     "title": "Join Our Waitlist!",
     "description": "Get Early Access to Braceys - Join Our Waitlist!"
   },

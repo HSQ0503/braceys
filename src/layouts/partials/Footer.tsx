@@ -6,6 +6,7 @@ import config from "@/config/config.json";
 import menu from "@/config/menu.json";
 import social from "@/config/social.json";
 import { markdownify } from "@/lib/utils/textConverter";
+import { useState, FormEvent } from "react";
 
 // Function to replace {year} this from string to year
 function replaceYear(text: string) {
@@ -17,6 +18,42 @@ function replaceYear(text: string) {
 const { footer_menu, footer_quick_links } = menu;
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  const handleSubscribe = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setMessage(null);
+
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: email.split("@")[0], email }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to subscribe");
+      }
+
+      setMessage({ type: "success", text: "Thanks for subscribing! Check your email." });
+      setEmail("");
+    } catch (err) {
+      setMessage({
+        type: "error",
+        text: err instanceof Error ? err.message : "Something went wrong",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <footer className="bg-light py-16 xl:py-28">
       <div className="container" data-aos="fade-up-sm">
@@ -79,11 +116,11 @@ const Footer = () => {
                 config.subscription.enable &&
                 config.subscription.title && (
                   <>
-                    {config.subscription.description && (
+                    {config.subscription.title && (
                       <h3
                         className="mb-4 text-xl font-normal text-text-dark"
                         dangerouslySetInnerHTML={markdownify(
-                          config.subscription.description,
+                          config.subscription.title,
                         )}
                       />
                     )}
@@ -96,23 +133,35 @@ const Footer = () => {
                       />
                     )}
                     <form
-                      action={config.subscription.action}
-                      method="post"
+                      onSubmit={handleSubscribe}
                       className="flex justify-between rounded-full bg-white px-3 py-2"
                     >
                       <input
                         type="email"
                         placeholder="Enter your email"
-                        className="form-input w-full rounded-full !border-transparent bg-transparent py-2 pl-2 placeholder:!opacity-100 focus:outline-0"
+                        className="form-input w-full rounded-full border-transparent! bg-transparent py-2 pl-2 placeholder:opacity-100! focus:outline-0"
                         required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        disabled={isSubmitting}
                       />
                       <button
-                        className="rounded-full bg-secondary px-4 py-1 font-medium transition hover:opacity-80 cursor-pointer"
+                        className="rounded-full bg-secondary px-4 py-1 font-medium transition hover:opacity-80 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         type="submit"
+                        disabled={isSubmitting}
                       >
-                        Subscribe
+                        {isSubmitting ? "..." : "Subscribe"}
                       </button>
                     </form>
+                    {message && (
+                      <p
+                        className={`mt-3 text-sm ${
+                          message.type === "success" ? "text-green-600" : "text-red-600"
+                        }`}
+                      >
+                        {message.text}
+                      </p>
+                    )}
                   </>
                 )}
               {config.params.copyright && (
