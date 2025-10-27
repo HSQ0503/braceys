@@ -19,7 +19,7 @@ RESEND_KEY=re_your_actual_api_key_here
 ## Implementation Overview
 
 ### 1. Email Template Component
-**Location**: `src/components/WaitlistEmailTemplate.tsx`
+**Location**: `src/layouts/components/WaitlistEmailTemplate.tsx`
 
 A React email template that sends a welcome message to users who join the waitlist.
 
@@ -142,7 +142,7 @@ Before deploying to production:
 
 ### Email Template Styling
 
-Edit `src/components/WaitlistEmailTemplate.tsx` to customize:
+Edit `src/layouts/components/WaitlistEmailTemplate.tsx` to customize:
 - Colors and branding
 - Email copy
 - Layout and structure

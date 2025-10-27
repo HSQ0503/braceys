@@ -1,4 +1,4 @@
-import { WaitlistEmailTemplate } from '@/components/WaitlistEmailTemplate';
+import { WaitlistEmailTemplate } from '@/layouts/components/WaitlistEmailTemplate';
 import { Resend } from 'resend';
 import { NextRequest } from 'next/server';
 
