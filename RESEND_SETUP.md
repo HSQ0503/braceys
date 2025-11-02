@@ -10,10 +10,10 @@ This guide explains how the Resend email integration works for the Braceys waitl
 
 ## Environment Variables
 
-Add your Resend API key and audience ID to your `.env` file:
+Add your Resend API key and audience ID to your `.env.local` file:
 
 ```bash
-RESEND_KEY=re_your_actual_api_key_here
+RESEND_API_KEY=re_your_actual_api_key_here
 RESEND_AUDIENCE_ID=aud_your_audience_id_here
 ```
 
@@ -129,7 +129,7 @@ Before deploying to production:
 1. Go to your project settings
 2. Navigate to "Environment Variables"
 3. Add the following variables:
-   - `RESEND_KEY` with your API key
+   - `RESEND_API_KEY` with your API key
    - `RESEND_AUDIENCE_ID` with your audience ID
 4. Redeploy your application
 
@@ -137,7 +137,7 @@ Before deploying to production:
 
 1. Go to Site settings → Build & deploy → Environment
 2. Add the following variables:
-   - `RESEND_KEY`: Your Resend API key
+   - `RESEND_API_KEY`: Your Resend API key
    - `RESEND_AUDIENCE_ID`: Your Resend audience ID
 3. Redeploy
 
@@ -164,7 +164,7 @@ To add more fields (e.g., phone number, company):
 
 ### Email Not Sending
 
-- Check that `RESEND_KEY` is set correctly
+- Check that `RESEND_API_KEY` is set correctly
 - Verify API key is valid in Resend dashboard
 - Check server logs for error messages
 - Ensure you're using a verified domain in production

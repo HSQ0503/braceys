@@ -1,8 +1,9 @@
 import { WaitlistEmailTemplate } from '@/layouts/components/WaitlistEmailTemplate';
 import { Resend } from 'resend';
 import { NextRequest } from 'next/server';
+import React from 'react';
 
-const resend = new Resend(process.env.RESEND_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,7 +25,7 @@ export async function POST(request: NextRequest) {
       from: 'Braceys <onboarding@resend.dev>',
       to: [email],
       subject: 'Welcome to the Braceys Waitlist! 🦷',
-      react: WaitlistEmailTemplate({ firstName }),
+      react: React.createElement(WaitlistEmailTemplate, { firstName }),
     });
 
     if (emailError) {
