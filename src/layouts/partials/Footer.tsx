@@ -7,6 +7,7 @@ import menu from "@/config/menu.json";
 import social from "@/config/social.json";
 import { markdownify } from "@/lib/utils/textConverter";
 import { useState, FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
 // Function to replace {year} this from string to year
 function replaceYear(text: string) {
@@ -18,14 +19,15 @@ function replaceYear(text: string) {
 const { footer_menu, footer_quick_links } = menu;
 
 const Footer = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [error, setError] = useState("");
 
   const handleSubscribe = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setMessage(null);
+    setError("");
 
     try {
       const response = await fetch("/api/waitlist", {
@@ -42,14 +44,10 @@ const Footer = () => {
         throw new Error(result.error || "Failed to subscribe");
       }
 
-      setMessage({ type: "success", text: "Thanks for subscribing! Check your email." });
-      setEmail("");
+      // Redirect to thank you page on success
+      router.push("/thank-you");
     } catch (err) {
-      setMessage({
-        type: "error",
-        text: err instanceof Error ? err.message : "Something went wrong",
-      });
-    } finally {
+      setError(err instanceof Error ? err.message : "Something went wrong");
       setIsSubmitting(false);
     }
   };
@@ -153,13 +151,9 @@ const Footer = () => {
                         {isSubmitting ? "..." : "Subscribe"}
                       </button>
                     </form>
-                    {message && (
-                      <p
-                        className={`mt-3 text-sm ${
-                          message.type === "success" ? "text-green-600" : "text-red-600"
-                        }`}
-                      >
-                        {message.text}
+                    {error && (
+                      <p className="mt-3 text-sm text-red-600">
+                        {error}
                       </p>
                     )}
                   </>

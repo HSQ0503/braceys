@@ -10,11 +10,14 @@ This guide explains how the Resend email integration works for the Braceys waitl
 
 ## Environment Variables
 
-Add your Resend API key to your `.env` file:
+Add your Resend API key and audience ID to your `.env` file:
 
 ```bash
 RESEND_KEY=re_your_actual_api_key_here
+RESEND_AUDIENCE_ID=aud_your_audience_id_here
 ```
+
+**Note:** The `RESEND_AUDIENCE_ID` is required to store contacts in your Resend mailing list. Get your audience ID from [resend.com/audiences](https://resend.com/audiences) after creating an audience.
 
 ## Implementation Overview
 
@@ -41,8 +44,9 @@ Handles waitlist submissions:
 
 **Footer Subscription**: `src/layouts/partials/Footer.tsx`
 - Quick email subscription form
-- Shows success/error messages inline
-- Clears form on successful submission
+- Shows loading state during submission
+- Redirects to `/thank-you` on success
+- Displays inline errors if failed
 
 ### 4. Thank You Page
 **Location**: `src/app/thank-you/page.tsx`
@@ -66,27 +70,21 @@ to: [email],
 
 ### Adding Contacts to Audience
 
-To add subscribers to a Resend audience for email campaigns:
+Subscribers are automatically added to your Resend audience for email campaigns. To enable this:
 
-1. **Create an Audience** in your Resend dashboard
-2. **Get the Audience ID** from the audience settings
-3. **Uncomment and update** the audience code in `src/app/api/waitlist/route.ts` (lines 38-50):
+1. **Create an Audience** in your Resend dashboard at [resend.com/audiences](https://resend.com/audiences)
+2. **Get the Audience ID** from the audience settings (looks like `aud_xxxxxxxxxxxxx`)
+3. **Add to your `.env` file**:
 
-```typescript
-const { data: audienceData, error: audienceError } = await resend.contacts.create({
-  email: email,
-  firstName: firstName,
-  lastName: name.split(' ').slice(1).join(' '),
-  unsubscribed: false,
-  audienceId: 'YOUR_AUDIENCE_ID_HERE', // Replace with your actual audience ID
-});
-
-if (audienceError) {
-  console.error('Error adding to audience:', audienceError);
-  // Don't fail the request if audience addition fails
-  // The email was still sent successfully
-}
+```bash
+RESEND_AUDIENCE_ID=aud_xxxxxxxxxxxxx
 ```
+
+The API route (`src/app/api/waitlist/route.ts`) automatically handles audience management:
+- ✅ Sends welcome email to user
+- ✅ Adds contact to Resend audience (if `RESEND_AUDIENCE_ID` is configured)
+- ✅ Stores first name and last name
+- ✅ Gracefully handles errors (email still sends even if audience addition fails)
 
 ## Testing
 
@@ -109,10 +107,12 @@ npm run dev
 
 - [ ] Email sends successfully
 - [ ] Welcome email received in inbox
-- [ ] Thank you page displays correctly
-- [ ] Footer subscription form works
+- [ ] Thank you page displays correctly (both forms redirect here)
+- [ ] Contact form redirects to thank-you page
+- [ ] Footer subscription form redirects to thank-you page
 - [ ] Error messages display properly
 - [ ] Loading states work as expected
+- [ ] Contacts added to Resend audience (check dashboard)
 
 ## Production Deployment
 
@@ -128,15 +128,18 @@ Before deploying to production:
 
 1. Go to your project settings
 2. Navigate to "Environment Variables"
-3. Add: `RESEND_KEY` with your API key
+3. Add the following variables:
+   - `RESEND_KEY` with your API key
+   - `RESEND_AUDIENCE_ID` with your audience ID
 4. Redeploy your application
 
 ### Environment Variables in Netlify
 
 1. Go to Site settings → Build & deploy → Environment
-2. Add variable: `RESEND_KEY`
-3. Value: Your Resend API key
-4. Redeploy
+2. Add the following variables:
+   - `RESEND_KEY`: Your Resend API key
+   - `RESEND_AUDIENCE_ID`: Your Resend audience ID
+3. Redeploy
 
 ## Customization
 

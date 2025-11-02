@@ -35,24 +35,35 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Add contact to audience
-    // Note: You'll need to create an audience in Resend dashboard and get the audience ID
-    // Uncomment and add your audience ID when ready:
-    /*
-    const { data: audienceData, error: audienceError } = await resend.contacts.create({
-      email: email,
-      firstName: firstName,
-      lastName: name.split(' ').slice(1).join(' '),
-      unsubscribed: false,
-      audienceId: 'YOUR_AUDIENCE_ID_HERE',
-    });
+    // Add contact to Resend audience
+    // Note: Replace 'YOUR_AUDIENCE_ID_HERE' with your actual audience ID from Resend dashboard
+    // Get your audience ID from: https://resend.com/audiences
+    const audienceId = process.env.RESEND_AUDIENCE_ID || 'YOUR_AUDIENCE_ID_HERE';
+    
+    if (audienceId && audienceId !== 'YOUR_AUDIENCE_ID_HERE') {
+      try {
+        const { data: audienceData, error: audienceError } = await resend.contacts.create({
+          email: email,
+          firstName: firstName,
+          lastName: name.split(' ').slice(1).join(' '),
+          unsubscribed: false,
+          audienceId: audienceId,
+        });
 
-    if (audienceError) {
-      console.error('Error adding to audience:', audienceError);
-      // Don't fail the request if audience addition fails
-      // The email was still sent successfully
+        if (audienceError) {
+          console.error('Error adding to audience:', audienceError);
+          // Don't fail the request if audience addition fails
+          // The email was still sent successfully
+        } else {
+          console.log('Successfully added to audience:', audienceData);
+        }
+      } catch (audienceException) {
+        console.error('Exception adding to audience:', audienceException);
+        // Continue - email was sent successfully even if audience addition failed
+      }
+    } else {
+      console.warn('RESEND_AUDIENCE_ID not configured. User will receive email but will not be added to audience.');
     }
-    */
 
     return Response.json({
       success: true,
