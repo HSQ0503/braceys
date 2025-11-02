@@ -38,24 +38,26 @@ export async function POST(request: NextRequest) {
     // Add contact to Resend audience
     // Note: Replace 'YOUR_AUDIENCE_ID_HERE' with your actual audience ID from Resend dashboard
     // Get your audience ID from: https://resend.com/audiences
-    const audienceId = process.env.RESEND_AUDIENCE_ID || 'YOUR_AUDIENCE_ID_HERE';
+    const audienceId = process.env.RESEND_AUDIENCE_ID;
     
     if (audienceId && audienceId !== 'YOUR_AUDIENCE_ID_HERE') {
       try {
-        const { data: audienceData, error: audienceError } = await resend.contacts.create({
+        const lastName = name.split(' ').slice(1).join(' ') || '';
+        
+        const contactResponse = await resend.contacts.create({
+          audienceId: audienceId,
           email: email,
           firstName: firstName,
-          lastName: name.split(' ').slice(1).join(' '),
+          lastName: lastName,
           unsubscribed: false,
-          audienceId: audienceId,
         });
 
-        if (audienceError) {
-          console.error('Error adding to audience:', audienceError);
+        if (contactResponse.error) {
+          console.error('Error adding to audience:', contactResponse.error);
           // Don't fail the request if audience addition fails
           // The email was still sent successfully
         } else {
-          console.log('Successfully added to audience:', audienceData);
+          console.log('Successfully added to audience:', contactResponse.data);
         }
       } catch (audienceException) {
         console.error('Exception adding to audience:', audienceException);
