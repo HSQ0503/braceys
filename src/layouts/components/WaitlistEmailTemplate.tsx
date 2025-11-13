@@ -29,7 +29,7 @@ export function WaitlistEmailTemplate({ firstName }: WaitlistEmailTemplateProps)
           <Section style={contentBox}>
             <Heading style={h2}>Hi {firstName}! 👋</Heading>
             <Text style={paragraph}>
-              Thank you for joining the Braceys waitlist! We're thrilled to have you on board.
+              Thank you for joining the Braceys waitlist! We&apos;re thrilled to have you on board.
             </Text>
             <Text style={paragraph}>
               Braceys is your personal Invisalign® companion, designed to help you track your aligners, 
@@ -39,8 +39,8 @@ export function WaitlistEmailTemplate({ firstName }: WaitlistEmailTemplateProps)
 
           {/* What's Next Section */}
           <Section style={section}>
-            <Heading style={h3}>What's Next?</Heading>
-            <Text style={listItem}>• You'll be among the first to know when we launch</Text>
+            <Heading style={h3}>What&apos;s Next?</Heading>
+            <Text style={listItem}>• You&apos;ll be among the first to know when we launch</Text>
             <Text style={listItem}>• Get exclusive early access to Braceys</Text>
             <Text style={listItem}>• Receive special launch offers and updates</Text>
           </Section>
@@ -49,7 +49,7 @@ export function WaitlistEmailTemplate({ firstName }: WaitlistEmailTemplateProps)
           <Hr style={hr} />
           <Section style={footer}>
             <Text style={footerText}>
-              Have questions? We'd love to hear from you!
+              Have questions? We&apos;d love to hear from you!
             </Text>
             <Text style={footerCopyright}>
               © {new Date().getFullYear()} Braceys. All rights reserved.
