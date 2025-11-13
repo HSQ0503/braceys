@@ -1,7 +1,6 @@
 import { WaitlistEmailTemplate } from '@/layouts/components/WaitlistEmailTemplate';
 import { Resend } from 'resend';
 import { NextRequest } from 'next/server';
-import React from 'react';
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,7 +33,7 @@ export async function POST(request: NextRequest) {
       from: 'Braceys <onboarding@resend.dev>',
       to: [email],
       subject: 'Welcome to the Braceys Waitlist! 🦷',
-      react: React.createElement(WaitlistEmailTemplate, { firstName }),
+      react: WaitlistEmailTemplate({ firstName }),
     });
 
     if (emailError) {

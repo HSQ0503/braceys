@@ -1,3 +1,13 @@
+import {
+  Body,
+  Container,
+  Head,
+  Heading,
+  Html,
+  Text,
+  Section,
+  Hr,
+} from '@react-email/components';
 import * as React from 'react';
 
 interface WaitlistEmailTemplateProps {
@@ -6,44 +16,136 @@ interface WaitlistEmailTemplateProps {
 
 export function WaitlistEmailTemplate({ firstName }: WaitlistEmailTemplateProps) {
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-      <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-        <h1 style={{ color: '#2563eb', fontSize: '32px', marginBottom: '10px' }}>Welcome to Braceys! 🦷</h1>
-      </div>
-      
-      <div style={{ backgroundColor: '#f8fafc', padding: '30px', borderRadius: '10px', marginBottom: '20px' }}>
-        <h2 style={{ color: '#1e293b', fontSize: '24px', marginBottom: '15px' }}>
-          Hi {firstName}! 👋
-        </h2>
-        <p style={{ color: '#475569', fontSize: '16px', lineHeight: '1.6', marginBottom: '15px' }}>
-          Thank you for joining the Braceys waitlist! We&apos;re thrilled to have you on board.
-        </p>
-        <p style={{ color: '#475569', fontSize: '16px', lineHeight: '1.6', marginBottom: '15px' }}>
-          Braceys is your personal Invisalign® companion, designed to help you track your aligners, 
-          get trusted advice, and stay on schedule with your treatment.
-        </p>
-      </div>
+    <Html>
+      <Head />
+      <Body style={main}>
+        <Container style={container}>
+          {/* Header */}
+          <Section style={headerSection}>
+            <Heading style={h1}>Welcome to Braceys! 🦷</Heading>
+          </Section>
+          
+          {/* Main Content */}
+          <Section style={contentBox}>
+            <Heading style={h2}>Hi {firstName}! 👋</Heading>
+            <Text style={paragraph}>
+              Thank you for joining the Braceys waitlist! We're thrilled to have you on board.
+            </Text>
+            <Text style={paragraph}>
+              Braceys is your personal Invisalign® companion, designed to help you track your aligners, 
+              get trusted advice, and stay on schedule with your treatment.
+            </Text>
+          </Section>
 
-      <div style={{ marginBottom: '30px' }}>
-        <h3 style={{ color: '#1e293b', fontSize: '20px', marginBottom: '15px' }}>
-          What&apos;s Next?
-        </h3>
-        <ul style={{ color: '#475569', fontSize: '16px', lineHeight: '1.8', paddingLeft: '20px' }}>
-          <li>You&apos;ll be among the first to know when we launch</li>
-          <li>Get exclusive early access to Braceys</li>
-          <li>Receive special launch offers and updates</li>
-        </ul>
-      </div>
+          {/* What's Next Section */}
+          <Section style={section}>
+            <Heading style={h3}>What's Next?</Heading>
+            <Text style={listItem}>• You'll be among the first to know when we launch</Text>
+            <Text style={listItem}>• Get exclusive early access to Braceys</Text>
+            <Text style={listItem}>• Receive special launch offers and updates</Text>
+          </Section>
 
-      <div style={{ textAlign: 'center', marginTop: '40px', paddingTop: '20px', borderTop: '1px solid #e2e8f0' }}>
-        <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '10px' }}>
-          Have questions? We&apos;d love to hear from you!
-        </p>
-        <p style={{ color: '#94a3b8', fontSize: '12px' }}>
-          © {new Date().getFullYear()} Braceys. All rights reserved.
-        </p>
-      </div>
-    </div>
+          {/* Footer */}
+          <Hr style={hr} />
+          <Section style={footer}>
+            <Text style={footerText}>
+              Have questions? We'd love to hear from you!
+            </Text>
+            <Text style={footerCopyright}>
+              © {new Date().getFullYear()} Braceys. All rights reserved.
+            </Text>
+          </Section>
+        </Container>
+      </Body>
+    </Html>
   );
 }
+
+// Styles
+const main = {
+  backgroundColor: '#ffffff',
+  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+};
+
+const container = {
+  margin: '0 auto',
+  padding: '20px',
+  maxWidth: '600px',
+};
+
+const headerSection = {
+  textAlign: 'center' as const,
+  marginBottom: '30px',
+};
+
+const h1 = {
+  color: '#2563eb',
+  fontSize: '32px',
+  fontWeight: 'bold',
+  marginBottom: '10px',
+  marginTop: '0',
+};
+
+const contentBox = {
+  backgroundColor: '#f8fafc',
+  padding: '30px',
+  borderRadius: '10px',
+  marginBottom: '20px',
+};
+
+const h2 = {
+  color: '#1e293b',
+  fontSize: '24px',
+  fontWeight: 'bold',
+  marginBottom: '15px',
+  marginTop: '0',
+};
+
+const h3 = {
+  color: '#1e293b',
+  fontSize: '20px',
+  fontWeight: 'bold',
+  marginBottom: '15px',
+  marginTop: '0',
+};
+
+const paragraph = {
+  color: '#475569',
+  fontSize: '16px',
+  lineHeight: '1.6',
+  marginBottom: '15px',
+};
+
+const section = {
+  marginBottom: '30px',
+};
+
+const listItem = {
+  color: '#475569',
+  fontSize: '16px',
+  lineHeight: '1.8',
+  margin: '8px 0',
+};
+
+const hr = {
+  borderColor: '#e2e8f0',
+  marginTop: '40px',
+  marginBottom: '20px',
+};
+
+const footer = {
+  textAlign: 'center' as const,
+};
+
+const footerText = {
+  color: '#64748b',
+  fontSize: '14px',
+  marginBottom: '10px',
+};
+
+const footerCopyright = {
+  color: '#94a3b8',
+  fontSize: '12px',
+  margin: '0',
+};
 
