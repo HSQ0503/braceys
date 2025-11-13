@@ -1,6 +1,7 @@
 import { WaitlistEmailTemplate } from '@/layouts/components/WaitlistEmailTemplate';
 import { Resend } from 'resend';
 import { NextRequest } from 'next/server';
+import { render } from '@react-email/components';
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,12 +29,15 @@ export async function POST(request: NextRequest) {
     // Extract first name from full name
     const firstName = name.split(' ')[0];
 
+    // Render the email template to HTML
+    const emailHtml = await render(WaitlistEmailTemplate({ firstName }));
+
     // Send welcome email
     const { data: emailData, error: emailError } = await resend.emails.send({
       from: 'Braceys <onboarding@resend.dev>',
       to: [email],
       subject: 'Welcome to the Braceys Waitlist! 🦷',
-      react: WaitlistEmailTemplate({ firstName }),
+      html: emailHtml,
     });
 
     if (emailError) {
