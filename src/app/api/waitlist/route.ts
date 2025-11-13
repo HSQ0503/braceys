@@ -6,15 +6,15 @@ import React from 'react';
 export async function POST(request: NextRequest) {
   try {
     // Initialize Resend client at runtime (not at module level)
-    if (!process.env.RESEND_API_KEY) {
-      console.error('RESEND_API_KEY is not configured');
+    if (!process.env.RESEND_KEY) {
+      console.error('RESEND_KEY is not configured');
       return Response.json(
         { error: 'Email service is not configured' },
         { status: 500 }
       );
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const resend = new Resend(process.env.RESEND_KEY);
 
     const body = await request.json();
     const { name, email } = body;
