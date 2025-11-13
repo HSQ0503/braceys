@@ -57,16 +57,16 @@ Beautiful confirmation page shown after successful waitlist signup.
 
 ### Update the "From" Address
 
-In `src/app/api/waitlist/route.ts`, update line 23:
+In `src/app/api/waitlist/route.ts`, the from address is now set to:
 
 ```typescript
-from: 'Braceys <onboarding@resend.dev>', // Change this to your verified domain
+from: 'Braceys <hello@braceysignup.com>',
 to: [email],
 ```
 
-**Options**:
-- **Development/Testing**: Use `onboarding@resend.dev` (provided by Resend)
-- **Production**: Use your verified domain, e.g., `hello@braceys.com`
+**Current Setup**:
+- **Production Domain**: `hello@braceysignup.com` (verified domain)
+- **Note**: Make sure this domain is verified in your Resend dashboard at [resend.com/domains](https://resend.com/domains)
 
 ### Adding Contacts to Audience
 

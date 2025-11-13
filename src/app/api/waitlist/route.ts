@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     // Send welcome email
     const { data: emailData, error: emailError } = await resend.emails.send({
-      from: 'Braceys <onboarding@resend.dev>',
+      from: 'Braceys <hello@braceysignup.com>',
       to: [email],
       subject: 'Welcome to the Braceys Waitlist! 🦷',
       html: emailHtml,
@@ -49,13 +49,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Add contact to Resend audience
-    // Note: Replace 'YOUR_AUDIENCE_ID_HERE' with your actual audience ID from Resend dashboard
-    // Get your audience ID from: https://resend.com/audiences
     const audienceId = process.env.RESEND_AUDIENCE_ID;
+    let audienceStatus = 'not_configured';
     
     if (audienceId && audienceId !== 'YOUR_AUDIENCE_ID_HERE') {
       try {
         const lastName = name.split(' ').slice(1).join(' ') || '';
+        
+        console.log(`Attempting to add ${email} to audience ${audienceId}`);
         
         const contactResponse = await resend.contacts.create({
           audienceId: audienceId,
@@ -66,24 +67,28 @@ export async function POST(request: NextRequest) {
         });
 
         if (contactResponse.error) {
-          console.error('Error adding to audience:', contactResponse.error);
+          console.error('❌ Error adding to audience:', contactResponse.error);
+          audienceStatus = 'failed';
           // Don't fail the request if audience addition fails
           // The email was still sent successfully
         } else {
-          console.log('Successfully added to audience:', contactResponse.data);
+          console.log('✅ Successfully added to audience:', contactResponse.data);
+          audienceStatus = 'added';
         }
       } catch (audienceException) {
-        console.error('Exception adding to audience:', audienceException);
+        console.error('❌ Exception adding to audience:', audienceException);
+        audienceStatus = 'error';
         // Continue - email was sent successfully even if audience addition failed
       }
     } else {
-      console.warn('RESEND_AUDIENCE_ID not configured. User will receive email but will not be added to audience.');
+      console.warn('⚠️ RESEND_AUDIENCE_ID not configured. User will receive email but will not be added to audience.');
     }
 
     return Response.json({
       success: true,
       message: 'Successfully joined waitlist',
       emailId: emailData?.id,
+      audienceStatus: audienceStatus,
     });
   } catch (error) {
     console.error('Unexpected error:', error);
